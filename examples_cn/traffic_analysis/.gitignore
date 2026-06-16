@@ -7,6 +7,3 @@ venv/
 *.png
 *.jpg
 *.jpeg
-
-__pycache__/
-*.log

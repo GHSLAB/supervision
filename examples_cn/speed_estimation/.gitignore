@@ -1,5 +1,5 @@
 data/
-venv/
+venv*/
 *.pt
 *.pth
 *.mp4
@@ -7,6 +7,3 @@ venv/
 *.png
 *.jpg
 *.jpeg
-
-__pycache__/
-*.log

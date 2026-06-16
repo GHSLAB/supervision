@@ -1,0 +1,14 @@
+defusedxml>=0.7.1
+jsonargparse>=4.49.0
+matplotlib>=3.6
+numpy>=1.21.2
+opencv-python>=4.5.5.64
+pillow>=9.4
+pydeprecate<0.10,>=0.9
+pyyaml>=5.3
+requests>=2.26
+scipy>=1.10
+tqdm>=4.62.3
+
+[metrics]
+pandas>=2
