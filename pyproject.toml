@@ -213,3 +213,7 @@ ini_options.norecursedirs = [ "examples", "docs", "notebooks", ".venv", ".git", 
 [tool.autoflake]
 check = true
 imports = [ "cv2", "supervision" ]
+
+[[tool.uv.index]]
+name = "tencent"
+url = "https://mirrors.cloud.tencent.com/pypi/simple/"
