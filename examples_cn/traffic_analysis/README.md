@@ -86,6 +86,37 @@ https://github.com/roboflow/supervision/assets/26109316/c9436828-9fbf-4c25-ae8c-
         --target_video_path data/traffic_analysis_result.mov
     ```
 
+## 🚗 增强版：`ultralytics_enhanced.py`
+
+在原示例基础上叠加了三个能力：
+
+- **车辆类型归一化**：从 `Detections.data["class_name"]` 映射到 `car / truck / bus / van / motorcycle / bicycle / other`，并按类型上色与打标签（`#ID car`），未知类别统一归为 `other`。可通过 `vehicle_type_aliases` 字典扩展。
+- **车辆轨迹记录**：按 `tracker_id` 维护轨迹点序列（`frame_index` / `timestamp` / `xyxy`），在 `process_video` 结束后可调用 `get_trajectories()` 得到长表，适合画轨迹 / 热力图。
+- **路口间车流统计表**：维护 `in_zone_id × out_zone_id × vehicle_type` 的去重计数（按 tracker id），并落盘为 CSV / JSON / Parquet：
+
+  - `traffic_analysis_od_matrix.csv` — 长表（in/out/type/count）
+  - `traffic_analysis_od_matrix.json` — 嵌套结构（含 `od_matrix_pivot`）
+  - `traffic_analysis_od_matrix.parquet` — 列存版（需要 `pyarrow`）
+  - `traffic_analysis_tracks_summary.csv` — 每辆车的汇总
+  - `traffic_analysis_trajectories.csv` — 每条轨迹点
+
+这些 DataFrame / 嵌套 JSON 都是下一步可视化（matplotlib、seaborn、Plotly、Streamlit 等）开箱即用的数据结构。
+
+### 运行示例
+
+```bash
+python ultralytics_enhanced.py \
+    --source_weights_path data/traffic_analysis.pt \
+    --source_video_path data/traffic_analysis.mov \
+    --target_video_path data/traffic_analysis_enhanced.mov \
+    --output_dir data/enhanced_output \
+    --confidence_threshold 0.3 \
+    --iou_threshold 0.5
+```
+
+> 提示：示例权重 `traffic_analysis.pt` 仅检测 `vehicle` 一类，因此会全部归一化为 `other`。
+> 换成多类车辆检测模型（如 `yolov8n.pt`）后，类型归一化与按类型统计会自动生效。
+
 ## © 许可证
 
 本示例集成了两个主要组件，各自具有不同的许可证：
